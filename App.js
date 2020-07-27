@@ -46,12 +46,15 @@ const App = ()  => {
         />
 
         <Button title="save" onPress={() => {
-          AsyncStorage.setItem('test', value);
+          AsyncStorage.setItem('test', JSON.stringify({
+            'name': 'asdf',
+            'value': value
+          }));
         }} />
 
         <Button title="retrive" onPress={async () => {
           let item = await AsyncStorage.getItem('test');
-          console.log(item)
+          console.log(JSON.parse(item).value)
 
         }} />
       </SafeAreaView>
