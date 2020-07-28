@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -30,6 +30,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import TodoItem from './Components/Storage/TodoItem'
 import TodoList from './Components/Storage/TodoList'
+import ListItemView from './Components/ListItemView';
 
 let todoList = new TodoList();
 
@@ -39,12 +40,15 @@ const App = () => {
 
   let todoItem = new TodoItem('test', 'asdf');
 
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <Text>hi</Text>
+        {
+          todoList.list.map((listItem) => {
+            return <ListItemView title={listItem} />
+          })
+        }
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           onChangeText={text => {
@@ -57,7 +61,6 @@ const App = () => {
         <Button title="save" onPress={async () => {
           todoItem.update(value)
           todoList.add(todoItem.title);
-          console.log(todoList)
           await AsyncStorage.setItem(value, JSON.stringify(todoItem));
           await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
         }} />
