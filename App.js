@@ -28,12 +28,13 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-
+import TodoItem from './Components/TodoItem'
 
 
 const App = ()  => {
   const [value, onChangeText] = React.useState('Useless Placeholder');
-  
+  let todoItem = new TodoItem('test', 'asdf');
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -41,21 +42,22 @@ const App = ()  => {
         <Text>hi</Text>
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={text => onChangeText(text)}
+          onChangeText={text => {
+            onChangeText(text)
+            
+          }}
           value={value}
         />
 
         <Button title="save" onPress={() => {
-          AsyncStorage.setItem('test', JSON.stringify({
-            'name': 'asdf',
-            'value': value
-          }));
+          todoItem.update(value)
+          console.log(todoItem)
+          AsyncStorage.setItem('test', JSON.stringify(todoItem));
         }} />
 
         <Button title="retrive" onPress={async () => {
           let item = await AsyncStorage.getItem('test');
-          console.log(JSON.parse(item).value)
-
+          console.log(JSON.parse(item));
         }} />
       </SafeAreaView>
     </>
