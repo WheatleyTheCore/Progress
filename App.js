@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -28,12 +28,17 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-import TodoItem from './Components/TodoItem'
+import TodoItem from './Components/Storage/TodoItem'
+import TodoList from './Components/Storage/TodoList'
+
+let todoList = new TodoList();
 
 
-const App = ()  => {
+const App = () => {
   const [value, onChangeText] = React.useState('Useless Placeholder');
+
   let todoItem = new TodoItem('test', 'asdf');
+
 
   return (
     <>
@@ -44,20 +49,26 @@ const App = ()  => {
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           onChangeText={text => {
             onChangeText(text)
-            
+
           }}
           value={value}
         />
 
-        <Button title="save" onPress={() => {
+        <Button title="save" onPress={async () => {
           todoItem.update(value)
-          console.log(todoItem)
-          AsyncStorage.setItem('test', JSON.stringify(todoItem));
+          todoList.add(todoItem.title);
+          console.log(todoList)
+          await AsyncStorage.setItem(value, JSON.stringify(todoItem));
+          await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
         }} />
 
         <Button title="retrive" onPress={async () => {
-          let item = await AsyncStorage.getItem('test');
+          let item = await AsyncStorage.getItem('list');
           console.log(JSON.parse(item));
+        }} />
+        <Button title='clear' onPress={async () => {
+          todoList.clear();
+          await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
         }} />
       </SafeAreaView>
     </>
