@@ -39,6 +39,9 @@ let Stack = createStackNavigator();
 let todoList = new TodoList();
 
 const Home = ({ navigation }) => {
+  /*
+    TODO: break out into its own component, instead read directly from memory to build up list
+  */
   const [value, onChangeText] = React.useState('Useless Placeholder');
 
   let todoItem = new TodoItem('test', 'asdf');
