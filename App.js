@@ -28,25 +28,28 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import TodoItem from './Components/Storage/TodoItem'
 import TodoList from './Components/Storage/TodoList'
 import ListItemView from './Components/ListItemView';
 
+let Stack = createStackNavigator();
 let todoList = new TodoList();
 
-
-const App = () => {
+const Home = ({ navigation }) => {
   const [value, onChangeText] = React.useState('Useless Placeholder');
 
   let todoItem = new TodoItem('test', 'asdf');
 
   return (
-    <>
+    <View>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         {
           todoList.list.map((listItem) => {
-            return <ListItemView title={listItem} />
+            return <ListItemView navigation={navigation} title={listItem} />
           })
         }
         <TextInput
@@ -63,6 +66,7 @@ const App = () => {
           todoList.add(todoItem.title);
           await AsyncStorage.setItem(value, JSON.stringify(todoItem));
           await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
+
         }} />
 
         <Button title="retrive" onPress={async () => {
@@ -74,6 +78,30 @@ const App = () => {
           await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
         }} />
       </SafeAreaView>
+    </View>
+  )
+
+}
+
+const test = () => {
+  return (
+    <View>
+      <Text>hi</Text>
+    </View>
+  )
+}
+
+const App = () => {
+
+
+  return (
+    <>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="asdf" component={test} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 };
