@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     SafeAreaView,
     StyleSheet,
@@ -26,13 +26,17 @@ export default ({ navigation }) => {
 
     let todoItem = new TodoItem('test', 'asdf');
 
+    useEffect(() => {
+        AsyncStorage.setItem('list', JSON.stringify(list));
+    }, [list])
+
     return (
         <View>
             <StatusBar barStyle="dark-content" />
             <SafeAreaView>
                 {
                     list.map((listItem) => {
-                        return <ListItemView navigation={navigation} title={listItem} />
+                        return <ListItemView key={String(Math.random() * 10)} navigation={navigation} title={listItem} />
                     })
                 }
                 <TextInput
@@ -47,7 +51,6 @@ export default ({ navigation }) => {
                     todoItem.update(value)
                     await updateList(list ? [...list, value] : [value]) // SEE WHY LIST IN STORAGE IS ONE BEHIND LIST IN COMPONENT STATE
                     await AsyncStorage.setItem(value, JSON.stringify(todoItem));
-                    await AsyncStorage.setItem('list', JSON.stringify(list));
                 }} />
 
                 <Button title="retrive" onPress={async () => {
