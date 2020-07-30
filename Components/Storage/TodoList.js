@@ -11,6 +11,7 @@ export default class TodoList {
         this.list.splice(this.list.indexOf(itemName), 1);
     }
 
+
     clear() {
         this.list = [];
     }

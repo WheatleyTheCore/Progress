@@ -34,57 +34,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import TodoItem from './Components/Storage/TodoItem'
 import TodoList from './Components/Storage/TodoList'
 import ListItemView from './Components/ListItemView';
+import HomeScreen from './Components/HomeScreen'
 
 let Stack = createStackNavigator();
 let todoList = new TodoList();
-
-const Home = ({ navigation }) => {
-  /*
-    TODO: break out into its own component, instead read directly from memory to build up list
-  */
-  const [value, onChangeText] = React.useState('Useless Placeholder');
-
-  let todoItem = new TodoItem('test', 'asdf');
-
-  return (
-    <View>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        {
-          todoList.list.map((listItem) => {
-            return <ListItemView navigation={navigation} title={listItem} />
-          })
-        }
-        <TextInput
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={text => {
-            onChangeText(text)
-
-          }}
-          value={value}
-        />
-
-        <Button title="save" onPress={async () => {
-          todoItem.update(value)
-          todoList.add(todoItem.title);
-          await AsyncStorage.setItem(value, JSON.stringify(todoItem));
-          await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
-
-        }} />
-
-        <Button title="retrive" onPress={async () => {
-          let item = await AsyncStorage.getItem('list');
-          console.log(JSON.parse(item));
-        }} />
-        <Button title='clear' onPress={async () => {
-          todoList.clear();
-          await AsyncStorage.setItem('list', JSON.stringify(todoList.list));
-        }} />
-      </SafeAreaView>
-    </View>
-  )
-
-}
 
 const test = () => {
   return (
@@ -101,7 +54,7 @@ const App = () => {
     <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="asdf" component={test} />
         </Stack.Navigator>
       </NavigationContainer>
