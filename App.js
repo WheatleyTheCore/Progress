@@ -50,6 +50,7 @@ const test = () => {
 
 const App = () => {
 
+  const [currentItem, updateCurrentItem] = useState('');
 
   return (
     <>

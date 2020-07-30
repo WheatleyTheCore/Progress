@@ -30,13 +30,17 @@ export default ({ navigation }) => {
         AsyncStorage.setItem('list', JSON.stringify(list));
     }, [list])
 
+    const getTodoItem = () => {
+        return todoItem;
+    }
+
     return (
         <View>
             <StatusBar barStyle="dark-content" />
             <SafeAreaView>
                 {
                     list.map((listItem) => {
-                        return <ListItemView key={String(Math.random() * 10)} navigation={navigation} title={listItem} />
+                        return <ListItemView getTodoItem={getTodoItem} key={String(Math.random() * 10)} navigation={navigation} title={listItem} />
                     })
                 }
                 <TextInput
