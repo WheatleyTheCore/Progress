@@ -12,7 +12,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native'
 export default (props) => {
     return (
         <Pressable onPress={() => {
-            props.navigation.navigate('asdf')
+            props.navigation.navigate('TodoScreen')
         }}>
             <View style={styles.container}>
                 <Text>{props.title}</Text>

@@ -35,6 +35,7 @@ import TodoItem from './Components/Storage/TodoItem'
 import TodoList from './Components/Storage/TodoList'
 import ListItemView from './Components/ListItemView';
 import HomeScreen from './Components/HomeScreen'
+import TodoScreen from './Components/TodoScreen';
 
 let Stack = createStackNavigator();
 let todoList = new TodoList();
@@ -55,7 +56,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="asdf" component={test} />
+          <Stack.Screen name="TodoScreen" component={TodoScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

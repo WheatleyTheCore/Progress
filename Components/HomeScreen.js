@@ -21,7 +21,7 @@ export default ({ navigation }) => {
     /*
       TODO: break out into its own component, instead read directly from memory to build up list
     */
-    const [value, onChangeText] = useState('Useless Placeholder');
+    const [value, updateValue] = useState('Useless Placeholder');
     const [list, updateList] = useState([]);
 
     let todoItem = new TodoItem('test', 'asdf');
@@ -42,14 +42,14 @@ export default ({ navigation }) => {
                 <TextInput
                     style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                     onChangeText={text => {
-                        onChangeText(text)
+                        updateValue(text)
                     }}
                     value={value}
                 />
 
                 <Button title="save" onPress={async () => {
                     todoItem.update(value)
-                    await updateList(list ? [...list, value] : [value]) // SEE WHY LIST IN STORAGE IS ONE BEHIND LIST IN COMPONENT STATE
+                    await updateList([...list, value])
                     await AsyncStorage.setItem(value, JSON.stringify(todoItem));
                 }} />
 
@@ -59,6 +59,7 @@ export default ({ navigation }) => {
                 }} />
                 <Button title='clear' onPress={async () => {
                     updateList([])
+                    updateValue('')
                     await AsyncStorage.setItem('list', JSON.stringify([]));
                 }} />
             </SafeAreaView>
